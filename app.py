@@ -55,7 +55,7 @@ def delete_usuario(usuario_id: str):
 @app.post("/proyectos/",response_model=Proyecto, status_code=201)
 def add_proyecto(proyecto: Proyecto):
     try:
-         container_proyecto.create_item(body=proyecto.dict())
+        container_proyecto.create_item(body=proyecto.dict())
         return proyecto
     except exceptions.CosmosResourceNotFoundError:
         raise HTTPException(status_code=400, detail="Proyecto no encontrado")
