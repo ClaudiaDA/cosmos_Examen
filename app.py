@@ -7,7 +7,7 @@ from database import container_usuario,container_proyecto
 
 app = FastAPI(title='API de Gestion de Usuarios y proyectos')
 
-###USUARIOS###
+###...USUARIOS...###
 #Crear usuario POST
 @app.post("/usuarios/", response_model=Usuario, status_code=201)
 def create_usuario(usuario: Usuario):
@@ -15,7 +15,7 @@ def create_usuario(usuario: Usuario):
         container_usuario.create_item(body=usuario.dict())
         return usuario
     except exceptions.CosmosResourceExistsError:
-        raise HTTPException(status_code=400, detail="El usuario con este ID ya existe")
+        raise HTTPException(status_code=400, detail="El usuario  ya existe  con este ID")
     except exceptions.CosmosHttpResponseError as e:
         raise HTTPException(status_code=400, detail=str(e))    
     
@@ -35,7 +35,7 @@ def update_usuario(usuario_id:str, updated_usuario: Usuario):
         container_usuario.replace_item(item=usuario_id, body=existing_usuario)
         return existing_usuario
     except exceptions.CosmosResourceNotFoundError:
-        raise HTTPException(status_code=404, detail='Usuario no encotrado')
+        raise HTTPException(status_code=404, detail='Usuario no se ha encontrado en la base')
     except exceptions.CosmosHttpResponseError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
@@ -46,11 +46,11 @@ def delete_usuario(usuario_id: str):
         container_usuario.delete_item(item=usuario_id, partition_key=usuario_id)
         return
     except exceptions.CosmosResourceNotFoundError:
-        raise HTTPException(status_code=404, detail='Usuario no encontrado')
+        raise HTTPException(status_code=404, detail='Usuario no se ha encontrado en la base')
     except exceptions.CosmosHttpResponseError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-###PROYECTOS###
+###...PROYECTOS...###
 #Crear proyecto POST
 @app.post("/proyectos/",response_model=Proyecto, status_code=201)
 def add_proyecto(proyecto: Proyecto):
@@ -59,7 +59,7 @@ def add_proyecto(proyecto: Proyecto):
         container_proyecto.create_item(body=proyecto.dict())
         return proyecto
     except exceptions.CosmosResourceNotFoundError:
-        raise HTTPException(status_code=400, detail="Evento no encontrado")
+        raise HTTPException(status_code=400, detail="Proyecto no encontrado")
     except exceptions.CosmosHttpResponseError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
