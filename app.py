@@ -87,7 +87,7 @@ def update_proyecto(proyect_id:str, updated_usuario: Proyecto):
 
         return existing_proyecto
     except exceptions.CosmosResourceNotFoundError:
-        raise HTTPException(status_code=404, detail='Proyecto no encotrado')
+        raise HTTPException(status_code=404, detail='Proyecto no encontrado')
     except exceptions.CosmosHttpResponseError as e:
         raise HTTPException(status_code=400, detail=str(e))
     
